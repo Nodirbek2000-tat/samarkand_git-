@@ -1,27 +1,33 @@
 #!/usr/bin/env bash
 # mentadbirkor — serverga birinchi o‘rnatish (va qayta ishga tushirish) bitta buyruq bilan.
 #
-# Oldin uchala repo shu papkalarga klonlangan bo‘lsin:
-#   /opt/mentadbirkor/backend  /opt/mentadbirkor/frontend  /opt/mentadbirkor/bot
-# Keyin:   bash /opt/mentadbirkor/backend/server-setup.sh
+# Uchala repo bitta papkada yonma-yon klonlangan bo‘lsin (masalan /root yoki /opt/mentadbirkor):
+#   samarkand_git-  samarkand_next_git-  samarkand_bot_git     (GitHub nomlari)
+#   yoki  backend  frontend  bot
+# Keyin:   bash samarkand_git-/server-setup.sh
 #
 # Nima qiladi: Docker ni o‘rnatadi (yo‘q bo‘lsa), umumiy tarmoq va volume'larni yaratadi,
 # .env fayllari yo‘q bo‘lsa — maxfiy kalitlarni yaratib uchalasini to‘ldiradi (bot tokenini so‘raydi),
 # so‘ng backend → frontend → bot tartibida ishga tushiradi. Mavjud .env fayllarga tegmaydi.
 set -euo pipefail
 
-ROOT=/opt/mentadbirkor
-BACKEND=$ROOT/backend
-FRONTEND=$ROOT/frontend
-BOT=$ROOT/bot
-
 say() { printf '\n\033[1;36m==> %s\033[0m\n' "$*"; }
 setv() { sed -i "s|^$2=.*|$2=$3|" "$1"; }   # setv FILE KEY VALUE
 secret() { openssl rand -hex 32; }
 
-for dir in "$BACKEND" "$FRONTEND" "$BOT"; do
-  [ -d "$dir" ] || { echo "Topilmadi: $dir — avval repolarni klonlang (DEPLOY.md)"; exit 1; }
+# backend = shu skript turgan repo; frontend va bot — uning yonidagi papkalar
+BACKEND="${BACKEND:-$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)}"
+PARENT="$(dirname "$BACKEND")"
+sibling() { for name in "$@"; do [ -d "$PARENT/$name" ] && { echo "$PARENT/$name"; return 0; }; done; return 0; }
+FRONTEND="${FRONTEND:-$(sibling samarkand_next_git- frontend samarkand_next)}"
+BOT="${BOT:-$(sibling samarkand_bot_git bot samarkand_bot)}"
+
+for pair in "frontend:$FRONTEND" "bot:$BOT"; do
+  [ -n "${pair#*:}" ] || { echo "Topilmadi: ${pair%%:*} papkasi $PARENT ichida yo‘q — avval repolarni klonlang"; exit 1; }
 done
+echo "backend:  $BACKEND"
+echo "frontend: $FRONTEND"
+echo "bot:      $BOT"
 
 # ------------------------------------------------------------------ Docker
 if ! command -v docker >/dev/null 2>&1; then

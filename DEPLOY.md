@@ -8,12 +8,14 @@ Hammasi bitta serverda umumiy `mentadbirkor` Docker tarmog‘i orqali bog‘lana
 Uchala repo klonlangach, `server-setup.sh` hammasini o‘zi qiladi (Docker, kalitlar, uchala `.env`, ishga tushirish):
 
 ```bash
-mkdir -p /opt/mentadbirkor && cd /opt/mentadbirkor
-git clone https://github.com/Nodirbek2000-tat/samarkand_git-.git backend
-git clone https://github.com/Nodirbek2000-tat/samarkand_next_git-.git frontend
-git clone https://github.com/Nodirbek2000-tat/samarkand_bot_git.git bot
-bash backend/server-setup.sh
+cd /root
+git clone https://github.com/Nodirbek2000-tat/samarkand_git-.git
+git clone https://github.com/Nodirbek2000-tat/samarkand_next_git-.git
+git clone https://github.com/Nodirbek2000-tat/samarkand_bot_git.git
+bash samarkand_git-/server-setup.sh
 ```
+
+Skript frontend va bot papkalarini yonidan o‘zi topadi (GitHub nomlari yoki `frontend` / `bot`).
 
 Hozircha domen yo‘q — sayt `http://173.249.39.129` da ochiladi. Quyida — qo‘lda bajarish tartibi.
 
