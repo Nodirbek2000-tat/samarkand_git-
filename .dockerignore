@@ -1,0 +1,17 @@
+venv/
+.venv/
+__pycache__/
+*.pyc
+db.sqlite3
+media/
+staticfiles/
+.env
+.env.*
+!.env.example
+.git/
+.idea/
+.vscode/
+docker-compose.yml
+server.env.example
+DEPLOY.md
+server-setup.sh

@@ -1,0 +1,5 @@
+# scripts and configs run inside Linux containers: keep LF even when edited on Windows
+*.sh text eol=lf
+Dockerfile text eol=lf
+*.conf text eol=lf
+*.yml text eol=lf
