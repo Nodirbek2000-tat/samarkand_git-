@@ -73,9 +73,11 @@ PROJECTS = [
         "<p>Samarqand aholisi va mehmonlari uchun sayr va velosiped yo‘laklari infratuzilmasini rivojlantirish, sohildagi "
         "muvaffaqiyatli turistik joylar tajribasidan foydalanish.</p>"
         "<h2>Obodonlashtirish rejasi</h2>"
-        "<p>2022-yil 17-dekabrda «Zarafshon tekstil» korxonasida o‘tgan Kengash majlisida tadbirkorlar har bir ishtirokchi "
-        "uchun taxminan 2 km uzunlikdagi sohil uchastkalarini obodonlashtirish tashabbusi bilan chiqdilar. Ishlar "
-        "davomida aksiyaga mintaqaning boshqa kompaniyalari ham qo‘shildi.</p>",
+        "<p>2022-yil 17-dekabrda «Zarafshon tekstil» korxonasida o‘tgan Kengash majlisida tadbirkorlar Siyob sohilini "
+        "obodonlashtirish tashabbusi bilan chiqdilar: sohilni noqonuniy qurilmalardan tozalash, piyodalar va "
+        "velosipedchilar uchun yo‘laklarni betonlash. Har bir ishtirokchi taxminan 2 km uzunlikdagi uchastkani "
+        "obodonlashtirish majburiyatini oldi. Ishlar davomida aksiyaga mintaqaning boshqa kompaniyalari ham "
+        "qo‘shildi.</p>",
     },
     {
         "slug": "made-in-samarkand-catalog",

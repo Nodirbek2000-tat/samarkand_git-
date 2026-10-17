@@ -17,7 +17,8 @@ bash samarkand_git-/server-setup.sh
 
 Skript frontend va bot papkalarini yonidan o‘zi topadi (GitHub nomlari yoki `frontend` / `bot`).
 
-Hozircha domen yo‘q — sayt `http://173.249.39.129` da ochiladi. Quyida — qo‘lda bajarish tartibi.
+Sayt faqat **https://mentadbirkor.uz** da ochiladi (SSL avtomatik, har 12 soatda tekshiriladi — frontend `DEPLOY.md`).
+Domenning A yozuvi shu serverga ko‘rsatgan bo‘lsin. Quyida — qo‘lda bajarish tartibi.
 
 ## 0. Bir martalik tayyorlov (server, faqat birinchi marta)
 

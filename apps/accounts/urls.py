@@ -1,6 +1,6 @@
 from django.urls import re_path
 
-from . import bot_api, views
+from . import bot_admin, bot_api, views
 
 # Optional trailing slash: the frontend proxy forwards paths without one.
 urlpatterns = [
@@ -20,4 +20,16 @@ urlpatterns = [
     re_path(r"^bot/member/?$", bot_api.BotMemberView.as_view(), name="bot-member"),
     re_path(r"^bot/outbox/?$", bot_api.BotOutboxView.as_view(), name="bot-outbox"),
     re_path(r"^bot/outbox/(?P<pk>\d+)/ack/?$", bot_api.BotOutboxAckView.as_view(), name="bot-outbox-ack"),
+    re_path(r"^bot/seen/?$", bot_api.BotSeenView.as_view(), name="bot-seen"),
+    re_path(r"^bot/stats/?$", bot_api.BotStatsView.as_view(), name="bot-stats"),
+    re_path(r"^bot/channels/?$", bot_api.BotChannelsView.as_view(), name="bot-channels"),
+    re_path(r"^bot/channels/(?P<chat_id>-?\d+)/?$", bot_api.BotChannelDeleteView.as_view(), name="bot-channel-delete"),
+    re_path(r"^bot/broadcasts/?$", bot_api.BotBroadcastCreateView.as_view(), name="bot-broadcast-create"),
+    re_path(r"^bot/broadcasts/next/?$", bot_api.BotBroadcastNextView.as_view(), name="bot-broadcast-next"),
+    re_path(r"^bot/broadcasts/(?P<pk>\d+)/progress/?$", bot_api.BotBroadcastProgressView.as_view(), name="bot-broadcast-progress"),
+    re_path(r"^bot/subscribers/?$", bot_api.BotSubscribersView.as_view(), name="bot-subscribers"),
+    # admin panel → «Telegram bot» (administrators)
+    re_path(r"^admin/bot/?$", bot_admin.BotAdminView.as_view(), name="admin-bot"),
+    re_path(r"^admin/bot/channels/(?P<pk>\d+)/?$", bot_admin.BotAdminChannelView.as_view(), name="admin-bot-channel"),
+    re_path(r"^admin/bot/broadcasts/(?P<pk>\d+)/cancel/?$", bot_admin.BotAdminBroadcastCancelView.as_view(), name="admin-bot-cancel"),
 ]

@@ -147,8 +147,9 @@ CSRF_TRUSTED_ORIGINS = FRONTEND_ORIGINS
 CORS_ALLOWED_ORIGINS = FRONTEND_ORIGINS
 CORS_ALLOW_CREDENTIALS = True
 
-# Production normally runs behind HTTPS. While the site is reached by plain IP (no domain / certificate yet)
-# set DJANGO_HTTPS=false — otherwise browsers drop the Secure session and CSRF cookies and nobody can sign in.
+# Production runs behind HTTPS (https://mentadbirkor.uz, nginx terminates TLS). Only a plain-HTTP test setup
+# needs DJANGO_HTTPS=false — otherwise browsers drop the Secure session and CSRF cookies and nobody can sign in.
+# No SSL redirect here: Next.js and the bot call Django over the internal Docker network (http://backend:8000).
 HTTPS = env_bool("DJANGO_HTTPS", not DEBUG)
 
 SESSION_COOKIE_HTTPONLY = True

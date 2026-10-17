@@ -1,6 +1,27 @@
 from django.contrib import admin
 
-from .models import BotMessage, BotState, LoginCode, TelegramAccount
+from .models import BotBroadcast, BotChannel, BotMessage, BotState, BotSubscriber, LoginCode, TelegramAccount
+
+
+@admin.register(BotSubscriber)
+class BotSubscriberAdmin(admin.ModelAdmin):
+    list_display = ["__str__", "username", "telegram_id", "is_blocked", "joined_at", "last_seen_at"]
+    list_filter = ["is_blocked"]
+    search_fields = ["first_name", "last_name", "username", "telegram_id"]
+    readonly_fields = ["telegram_id", "chat_id", "joined_at", "last_seen_at"]
+
+
+@admin.register(BotChannel)
+class BotChannelAdmin(admin.ModelAdmin):
+    list_display = ["__str__", "username", "chat_id", "is_active", "created_at"]
+    list_filter = ["is_active"]
+
+
+@admin.register(BotBroadcast)
+class BotBroadcastAdmin(admin.ModelAdmin):
+    list_display = ["__str__", "kind", "status", "sent", "failed", "total", "created_at", "finished_at"]
+    list_filter = ["kind", "status"]
+    readonly_fields = ["source", "file_id", "cursor", "total", "sent", "failed", "created_at", "started_at", "finished_at"]
 
 
 @admin.register(TelegramAccount)

@@ -255,3 +255,98 @@ class RoleManagementTests(TestCase):
         self.assertEqual(r.status_code, 201, r.content)
         self.assertEqual(r.json()["role"], "editor")
         self.assertTrue(r.json()["has_password"])
+
+
+@override_settings(BOT_API_SECRET=SECRET)
+class BotAudienceTests(TestCase):
+    """Subscribers, mandatory channels, the /admin rights and broadcasts (the test plays the bot)."""
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        NO_REVALIDATE.start()
+
+    @classmethod
+    def tearDownClass(cls):
+        NO_REVALIDATE.stop()
+        super().tearDownClass()
+
+    def setUp(self):
+        cache.clear()
+        self.bot = APIClient(HTTP_X_BOT_SECRET=SECRET)
+
+    def seen(self, telegram_id, **extra):
+        r = self.bot.post("/api/bot/seen", {"telegram_id": telegram_id, "chat_id": telegram_id, "first_name": "A", **extra}, format="json")
+        self.assertEqual(r.status_code, 200, r.content)
+        return r.json()
+
+    def test_seen_adds_subscriber_once_and_admin_flag_follows_site_role(self):
+        from apps.accounts.models import BotSubscriber
+
+        self.assertFalse(self.seen(5)["admin"])
+        self.seen(5, username="new_name")
+        self.assertEqual(BotSubscriber.objects.get().username, "new_name")
+        self.bot.post("/api/bot/register", {"telegram_id": 5, "chat_id": 5, "phone": "998901112233"}, format="json")
+        User.objects.filter(username="tg_5").update(is_staff=True, is_superuser=True)
+        self.assertTrue(self.seen(5)["admin"])
+        User.objects.filter(username="tg_5").update(is_superuser=False)  # editors do not get the bot's /admin
+        self.assertFalse(self.seen(5)["admin"])
+
+    def test_channels_add_list_delete(self):
+        self.bot.post("/api/bot/channels", {"chat_id": -1001, "title": "Yangi Samarqand", "username": "@ys_news"}, format="json")
+        channels = self.bot.get("/api/bot/channels").json()["channels"]
+        self.assertEqual((channels[0]["username"], channels[0]["link"]), ("ys_news", "https://t.me/ys_news"))
+        self.bot.delete("/api/bot/channels/-1001")
+        self.assertEqual(self.bot.get("/api/bot/channels").json()["channels"], [])
+
+    def test_ad_broadcast_walks_subscribers_and_marks_unreachable(self):
+        from apps.accounts.models import BotBroadcast, BotSubscriber
+
+        for i in (1, 2, 3):
+            self.seen(i)
+        r = self.bot.post("/api/bot/broadcasts", {"from_chat_id": 1, "message_id": 42}, format="json")
+        self.assertEqual(r.status_code, 200, r.content)
+        b = self.bot.get("/api/bot/broadcasts/next").json()["broadcast"]
+        self.assertEqual((b["kind"], b["message_id"]), ("ad", 42))
+        page = self.bot.get("/api/bot/subscribers", {"after": 0, "limit": 2}).json()["items"]
+        self.assertEqual(len(page), 2)
+        self.bot.post(f"/api/bot/broadcasts/{b['id']}/progress", {"sent": 1, "failed": 1, "blocked": [2], "cursor": page[-1][0]}, format="json")
+        rest = self.bot.get("/api/bot/subscribers", {"after": page[-1][0]}).json()["items"]
+        self.assertEqual([r[1] for r in rest], [3])
+        r = self.bot.post(f"/api/bot/broadcasts/{b['id']}/progress", {"sent": 1, "done": True, "cursor": rest[-1][0]}, format="json")
+        self.assertEqual(r.json(), {"status": "done", "sent": 2, "failed": 1, "total": 3})
+        self.assertTrue(BotSubscriber.objects.get(chat_id=2).is_blocked)
+        self.assertIsNone(self.bot.get("/api/bot/broadcasts/next").json()["broadcast"])
+        self.assertEqual(BotBroadcast.objects.get().status, "done")
+
+    def test_autopost_queues_new_items_once_only_when_switched_on(self):
+        from apps.accounts.models import BotBroadcast
+        from apps.content.models import News
+
+        News.objects.create(title="Avval", excerpt="x", is_published=True)
+        self.assertEqual(BotBroadcast.objects.count(), 0)  # switched off
+
+        boss = User.objects.create_user("boss2", password="x-very-strong-1", is_staff=True, is_superuser=True)
+        admin = APIClient()
+        admin.force_authenticate(boss)
+        self.assertTrue(admin.patch("/api/admin/bot", {"autopost": True}, format="json").json()["bot"]["autopost"])
+
+        with self.captureOnCommitCallbacks(execute=True):
+            news = News.objects.create(title="Forum natijalari", excerpt="<p>Eng ilg‘or korxonalar</p>", is_published=True)
+        with self.captureOnCommitCallbacks(execute=True):
+            news.title = "Forum natijalari (tahrir)"
+            news.save()  # editing does not post again
+        with self.captureOnCommitCallbacks(execute=True):
+            News.objects.create(title="Qoralama", is_published=False)
+        b = BotBroadcast.objects.get()
+        self.assertEqual((b.kind, b.url), ("post", f"/news/{news.slug}"))
+        self.assertIn("<b>Forum natijalari</b>", b.text)
+        self.assertIn("Eng ilg‘or korxonalar", b.text)
+        self.assertNotIn("<p>", b.text)
+
+    def test_admin_panel_needs_administrator(self):
+        editor = User.objects.create_user("ed", password="x-very-strong-1", is_staff=True)
+        c = APIClient()
+        c.force_authenticate(editor)
+        self.assertEqual(c.get("/api/admin/bot").status_code, 403)
+        self.assertEqual(APIClient().get("/api/admin/bot").status_code, 403)

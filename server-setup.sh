@@ -8,11 +8,15 @@
 #
 # Nima qiladi: Docker ni o‘rnatadi (yo‘q bo‘lsa), umumiy tarmoq va volume'larni yaratadi,
 # .env fayllari yo‘q bo‘lsa — maxfiy kalitlarni yaratib uchalasini to‘ldiradi (bot tokenini so‘raydi),
-# so‘ng backend → frontend → bot tartibida ishga tushiradi. Mavjud .env fayllarga tegmaydi.
+# mavjud .env larda faqat domen/HTTPS qatorlarini yangilaydi (maxfiy kalitlarga tegmaydi),
+# so‘ng backend → frontend → bot tartibida ishga tushiradi. Sayt: https://mentadbirkor.uz (SSL avtomatik).
 set -euo pipefail
 
+DOMAIN="${DOMAIN:-mentadbirkor.uz}"
 say() { printf '\n\033[1;36m==> %s\033[0m\n' "$*"; }
-setv() { sed -i "s|^$2=.*|$2=$3|" "$1"; }   # setv FILE KEY VALUE
+warn() { printf '\n\033[1;33m!!  %s\033[0m\n' "$*"; }
+# setv FILE KEY VALUE — qator bor bo‘lsa almashtiradi, yo‘q bo‘lsa qo‘shadi
+setv() { if grep -q "^$2=" "$1"; then sed -i "s|^$2=.*|$2=$3|" "$1"; else echo "$2=$3" >> "$1"; fi; }
 secret() { openssl rand -hex 32; }
 
 # backend = shu skript turgan repo; frontend va bot — uning yonidagi papkalar
@@ -79,6 +83,27 @@ if [ ! -f "$BACKEND/.env" ]; then
   ADMIN_NOTE="Admin panel: login admin, parol: $admin_password  (keyin almashtiring; u $BACKEND/.env da ham bor)"
 fi
 
+# ------------------------------------------------------------------ domen va HTTPS
+# eski "faqat IP, HTTP" sozlamalari ham shu yerda yangilanadi
+say "Domen: https://$DOMAIN"
+setv "$BACKEND/.env" DJANGO_HTTPS true
+setv "$BACKEND/.env" DJANGO_ALLOWED_HOSTS "$DOMAIN,www.$DOMAIN,backend,localhost,127.0.0.1"
+setv "$BACKEND/.env" FRONTEND_ORIGINS "https://$DOMAIN,https://www.$DOMAIN"
+sed -i '/^COMPOSE_FILE=/d' "$FRONTEND/.env"
+if ! grep -q '^CERTBOT_EMAIL=..*' "$FRONTEND/.env"; then
+  read -rp "Let's Encrypt uchun email (sertifikat muddati haqida xabar keladi): " certbot_email
+  setv "$FRONTEND/.env" CERTBOT_EMAIL "$certbot_email"
+fi
+setv "$BOT/.env" SITE_URL "https://$DOMAIN"
+setv "$BOT/.env" ip "$DOMAIN"
+
+# sertifikat faqat domen shu serverga ko‘rsatganda beriladi
+domain_ip=$(getent ahostsv4 "$DOMAIN" | awk 'NR==1 {print $1}' || true)
+if [ -z "$domain_ip" ] || ! hostname -I | tr ' ' '\n' | grep -qx "$domain_ip"; then
+  warn "$DOMAIN hozir ${domain_ip:-hech qayerga} ko‘rsatyapti, bu server esa: $(hostname -I | awk '{print $1}')."
+  warn "Domen panelida $DOMAIN va www.$DOMAIN A yozuvlarini shu server IP siga o‘zgartiring — DNS yangilangach sertifikat o‘zi olinadi."
+fi
+
 # ------------------------------------------------------------------ ishga tushirish
 say "1/3 Backend (Django + PostgreSQL)"
 (cd "$BACKEND" && docker compose up -d --build --wait)
@@ -89,7 +114,7 @@ say "2/3 Frontend (Next.js + Nginx) — birinchi marta bir necha daqiqa"
 say "3/3 Bot"
 (cd "$BOT" && docker compose up -d --build)
 
-ip=$(hostname -I | awk '{print $1}')
-say "Tayyor! Sayt: http://$ip"
+say "Tayyor! Sayt: https://$DOMAIN"
+echo "Sertifikat birinchi marta 1–2 daqiqada olinadi:  cd $FRONTEND && docker compose logs -f nginx"
 [ -n "${ADMIN_NOTE:-}" ] && echo "$ADMIN_NOTE"
 echo "Holat:  cd $BACKEND && docker compose ps   (frontend va bot papkalarida ham)"
