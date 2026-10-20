@@ -140,6 +140,25 @@ class ApiTests(TestCase):
         self.assertEqual(r.status_code, 204)
         self.assertEqual([p["title"] for p in self.anon.get("/api/projects").json()["results"]], ["B", "A"])
 
+    # ------------------------------------------------------------ search
+    def test_search_apostrophes_words_and_ranking(self):
+        Project.objects.create(title="Siyob kanali sohili", summary="Obodonlashtirish", is_published=True)
+        Project.objects.create(title="Boshqa loyiha", body="<p>Siyob kanali bo‘yida <b>betonlash</b> ishlari</p>", is_published=True)
+        News.objects.create(title="Kengash a’zolari yig‘ildi", is_published=True)
+        search = lambda q: self.anon.get("/api/search", {"q": q}).json()["results"]
+        # any apostrophe finds the typographic one
+        self.assertEqual([r["title"] for r in search("a'zolari")], ["Kengash a’zolari yig‘ildi"])
+        # every word must occur; a title match comes first
+        titles = [r["title"] for r in search("kanali siyob")]
+        self.assertEqual(titles, ["Siyob kanali sohili", "Boshqa loyiha"])
+        # a match deep in the text shows the passage around it, without HTML
+        deep = search("betonlash")[0]
+        self.assertIn("betonlash", deep["text"])
+        self.assertNotIn("<", deep["text"])
+        # drafts and too-short queries return nothing
+        self.assertEqual(search("Qoralama"), [])
+        self.assertEqual(search("a"), [])
+
 
 class TextTests(TestCase):
     def test_uzbek_slug(self):

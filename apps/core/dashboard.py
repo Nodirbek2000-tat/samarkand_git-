@@ -4,7 +4,6 @@ from django.db.models import Count, Q
 from django.db.models.functions import TruncDate
 from django.utils import timezone
 from drf_spectacular.utils import extend_schema
-from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -110,49 +109,3 @@ class DashboardView(APIView):
                 )
         data["recent"] = sorted(recent, key=lambda r: r["updated_at"], reverse=True)[:8]
         return Response(data)
-
-
-class SearchView(APIView):
-    """Site-wide search across published content."""
-
-    permission_classes = [AllowAny]
-
-    @extend_schema(responses={200: dict})
-    def get(self, request):
-        q = (request.query_params.get("q") or "").strip()
-        if len(q) < 2:
-            return Response({"query": q, "results": []})
-        results = []
-
-        def add(qs, kind, url, title_attr="title", text_attr=None, limit=8):
-            for obj in qs[:limit]:
-                text = getattr(obj, text_attr, "") if text_attr else ""
-                results.append({"kind": kind, "title": getattr(obj, title_attr), "text": (text or "")[:220], "url": url(obj)})
-
-        add(
-            News.objects.filter(is_published=True).filter(Q(title__icontains=q) | Q(excerpt__icontains=q) | Q(body__icontains=q)),
-            "Yangilik", lambda o: f"/news/{o.slug}", text_attr="excerpt",
-        )
-        add(
-            Project.objects.filter(is_published=True).filter(Q(title__icontains=q) | Q(summary__icontains=q) | Q(body__icontains=q)),
-            "Loyiha", lambda o: f"/projects/{o.slug}", text_attr="summary",
-        )
-        add(
-            Announcement.objects.filter(is_published=True).filter(Q(title__icontains=q) | Q(excerpt__icontains=q)),
-            "E’lon", lambda o: f"/announcements/{o.slug}", text_attr="excerpt",
-        )
-        add(
-            CouncilMember.objects.filter(is_active=True).filter(Q(full_name__icontains=q) | Q(company__icontains=q)),
-            "Kengash a’zosi", lambda o: f"/council/members/{o.slug}", title_attr="full_name", text_attr="company",
-        )
-        add(
-            Gallery.objects.filter(is_published=True).filter(title__icontains=q),
-            "Fotohisobot", lambda o: f"/gallery/{o.slug}", text_attr="description",
-        )
-        add(
-            ForumEdition.objects.filter(is_published=True)
-            .filter(Q(title__icontains=q) | Q(nominations__winners__name__icontains=q))
-            .distinct(),
-            "Forum", lambda o: f"/business-environment/forum/{o.year}", text_attr="dates",
-        )
-        return Response({"query": q, "results": results})

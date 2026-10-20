@@ -8,7 +8,8 @@ from apps.accounts.views import UserAdminViewSet
 from apps.content import views as content
 from apps.core import views as core
 from apps.core.api import OptionalSlashRouter
-from apps.core.dashboard import DashboardView, SearchView
+from apps.core.dashboard import DashboardView
+from apps.core.search import SearchView
 from apps.council import views as council
 from apps.forum.views import ForumEditionViewSet
 from apps.inbox import views as inbox
