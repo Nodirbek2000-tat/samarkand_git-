@@ -10,6 +10,7 @@ from apps.core import views as core
 from apps.core.api import OptionalSlashRouter
 from apps.core.dashboard import DashboardView
 from apps.core.search import SearchView
+from apps.core.vitals import VitalsReportView, VitalsView
 from apps.council import views as council
 from apps.forum.views import ForumEditionViewSet
 from apps.inbox import views as inbox
@@ -50,6 +51,8 @@ api = [
     re_path(r"^settings/?$", core.SiteSettingsView.as_view(), name="site-settings"),
     re_path(r"^dashboard/?$", DashboardView.as_view(), name="dashboard"),
     re_path(r"^search/?$", SearchView.as_view(), name="search"),
+    re_path(r"^vitals/?$", VitalsView.as_view(), name="vitals"),
+    re_path(r"^admin/vitals/?$", VitalsReportView.as_view(), name="vitals-report"),
     re_path(r"^uploads/editor/?$", core.EditorUploadView.as_view(), name="editor-upload"),
     path("", include("apps.accounts.urls")),
     re_path(r"^schema/?$", SpectacularAPIView.as_view(), name="schema"),

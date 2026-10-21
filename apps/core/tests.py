@@ -27,7 +27,7 @@ NO_REVALIDATE = mock.patch("apps.core.revalidate._queue", lambda tags: None)
     ],
     "DEFAULT_PAGINATION_CLASS": "apps.core.pagination.StandardPagination",
     "PAGE_SIZE": 12,
-    "DEFAULT_THROTTLE_RATES": {"public_forms": "1000/hour", "login": "1000/min"},
+    "DEFAULT_THROTTLE_RATES": {"public_forms": "1000/hour", "login": "1000/min", "vitals": "1000/hour"},
     "EXCEPTION_HANDLER": "apps.core.exceptions.api_exception_handler",
 })
 class ApiTests(TestCase):
@@ -158,6 +158,32 @@ class ApiTests(TestCase):
         # drafts and too-short queries return nothing
         self.assertEqual(search("Qoralama"), [])
         self.assertEqual(search("a"), [])
+
+    # ------------------------------------------------------------ real-user speed measurements
+    def test_vitals_beacon_and_report(self):
+        sample = {
+            "page": "/", "device": "phone", "browser": "Chrome 130", "lite": True, "cores": 8, "memory": 4,
+            "net": "4g", "width": 412, "lcp_ms": 2400, "ready_ms": 3100, "inp_ms": 180, "cls": 0.02,
+            "tbt_ms": 900, "longest_ms": 420, "frames": 600, "janky": 30, "worst_frame_ms": 140,
+            "culprit": "setup @app.js", "globe": "3d",
+        }
+        # anonymous, and works even with a signed-in session (no CSRF token in a beacon)
+        r = self.client_for(self.visitor).post("/api/vitals", sample, format="json")
+        self.assertEqual(r.status_code, 204, r.content)
+        self.assertEqual(self.anon.post("/api/vitals", {**sample, "device": "desktop", "lite": False, "tbt_ms": 100}, format="json").status_code, 204)
+        # nonsense is refused, overlong text is trimmed
+        self.assertEqual(self.anon.post("/api/vitals", {**sample, "lcp_ms": -5}, format="json").status_code, 400)
+        self.assertEqual(self.anon.post("/api/vitals", {**sample, "device": "fridge"}, format="json").status_code, 400)
+        self.assertEqual(self.anon.post("/api/vitals", {**sample, "page": "/x" * 300}, format="json").status_code, 204)
+        # only administrators read the summary
+        self.assertEqual(self.anon.get("/api/admin/vitals").status_code, 403)
+        self.assertEqual(self.client_for(self.editor).get("/api/admin/vitals").status_code, 403)
+        report = self.client_for(self.admin).get("/api/admin/vitals?days=7").json()
+        self.assertEqual(report["summary"]["samples"], 3)
+        self.assertEqual(report["globe"], {"3d": 3})
+        phone = next(g for g in report["groups"] if g["device"] == "phone")
+        self.assertEqual((phone["label"], phone["lite"], phone["samples"], phone["jank_pct"]), ("Telefon", True, 2, 5.0))
+        self.assertEqual(report["worst"][0]["tbt_ms"], 900)
 
 
 class TextTests(TestCase):

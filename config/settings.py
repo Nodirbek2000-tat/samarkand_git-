@@ -185,6 +185,8 @@ REST_FRAMEWORK = {
         "public_forms": "20/hour",
         "login": "10/min",
         "telegram_code": "8/min",
+        # the site's own speed beacon: one per page visit
+        "vitals": "120/hour",
     },
     "EXCEPTION_HANDLER": "apps.core.exceptions.api_exception_handler",
 }

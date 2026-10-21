@@ -183,3 +183,39 @@ class EditorUpload(TimeStampedModel):
     class Meta:
         verbose_name = "Matn ichidagi rasm"
         verbose_name_plural = "Matn ichidagi rasmlar"
+
+
+class PerfSample(models.Model):
+    """
+    One page visit as the visitor's own device experienced it (real-user measurement, sent by the site
+    when the tab is left). No personal data: no IP address, no account — only the kind of device and timings.
+    """
+
+    created_at = models.DateTimeField("Vaqt", default=timezone.now, db_index=True)
+    page = models.CharField("Sahifa", max_length=200)
+    device = models.CharField("Qurilma", max_length=10)  # phone | tablet | desktop
+    browser = models.CharField("Brauzer", max_length=40, blank=True)
+    lite = models.BooleanField("Yengil rejim", default=False)
+    cores = models.PositiveSmallIntegerField("Protsessor oqimlari", null=True, blank=True)
+    memory = models.FloatField("Xotira (GB)", null=True, blank=True)
+    net = models.CharField("Internet", max_length=10, blank=True)
+    width = models.PositiveSmallIntegerField("Ekran eni", null=True, blank=True)
+    lcp_ms = models.PositiveIntegerField("Asosiy kontent (LCP)", null=True, blank=True)
+    ready_ms = models.PositiveIntegerField("Sahifa tayyor", null=True, blank=True)
+    inp_ms = models.PositiveIntegerField("Bosishga javob (INP)", null=True, blank=True)
+    cls = models.FloatField("Siljish (CLS)", null=True, blank=True)
+    tbt_ms = models.PositiveIntegerField("Kirishdagi qotish (TBT)", null=True, blank=True)
+    longest_ms = models.PositiveIntegerField("Eng uzun qotish", null=True, blank=True)
+    frames = models.PositiveIntegerField("Scroll kadrlari", null=True, blank=True)
+    janky = models.PositiveIntegerField("Qotgan kadrlar", null=True, blank=True)
+    worst_frame_ms = models.PositiveIntegerField("Eng sekin kadr", null=True, blank=True)
+    culprit = models.CharField("Eng og‘ir kod", max_length=200, blank=True)
+    globe = models.CharField("Globus", max_length=10, blank=True)  # 3d | poster | slow
+
+    class Meta:
+        verbose_name = "Tezlik o‘lchovi"
+        verbose_name_plural = "Tezlik o‘lchovlari"
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return f"{self.page} · {self.device}"
