@@ -3,7 +3,7 @@
 from .people import TEACHERS_DAY_HONOREES
 
 ABOUT_INTRO = (
-    "«Mintaqalarni ijtimoiy-iqtisodiy rivojlantirishga ko‘maklashish bo‘yicha tadbirkorlar jamoat fondi «YANGI SAMARQAND» "
+    "«Ishbilarmonlarning «YANGI SAMARQAND» hududlarni ijtimoiy-iqtisodiy rivojlanishiga ko‘maklashuvchi jamoat fondi» "
     "nodavlat notijorat tashkiloti 2021-yil 1-dekabrda Samarqand viloyati Adliya boshqarmasi tomonidan 295-raqam bilan "
     "ro‘yxatga olingan. Tadbirkorlar jamoat maslahat kengashi Fondning Vasiylik kengashi funksiyalari, huquqlari va "
     "vakolatlariga tenglashtirilgan."
@@ -14,14 +14,14 @@ PAGES = [
         "key": "about",
         "section": "about",
         "title": "Biz haqimizda",
-        "subtitle": "Tadbirkorlikni jadal rivojlantirish sari birgamiz.",
+        "subtitle": "Birgalikda — tadbirkorlik yuksalishi sari!",
         "body": f"<p>{ABOUT_INTRO}</p>",
         "blocks": [
-            {"group": "principles", "title": "Shior", "body": "Tadbirkorlikni jadal rivojlantirish sari birgamiz."},
+            {"group": "principles", "title": "Shior", "body": "Birgalikda — tadbirkorlik yuksalishi sari!"},
             {
                 "group": "principles",
                 "title": "Missiya",
-                "body": "Mintaqaning biznes va investitsiya muhitini yaxshilashga, jamiyatda tadbirkorlar nufuzini "
+                "body": "Viloyatning biznes va investitsiya muhitini yaxshilashga, jamiyatda tadbirkorlar nufuzini "
                 "mustahkamlashga hamda korxonalarning barqaror rivojlanishiga hissa qo‘shish.",
             },
             {
@@ -32,12 +32,6 @@ PAGES = [
                 "sifatli xizmat ko‘rsatilishiga erishish va tadbirkorlarning qonuniy huquqlarini himoya qilish.",
             },
             {
-                "group": "principles",
-                "title": "Vizyon",
-                "body": "Tadbirkorlik uchun yaratilgan sharoitlardan samarali foydalanishda davlat boshqaruv organlari "
-                "bilan hamkorlik qilish va biznes rivojiga ko‘maklashish.",
-            },
-            {
                 "group": "values",
                 "title": "Shaffoflik va hisobdorlik",
                 "body": "Barcha tadbirlar hamjamiyatga e’lon qilinadi; a’zolar ularning natijadorligi va moliyaviy "
@@ -46,7 +40,7 @@ PAGES = [
             {
                 "group": "values",
                 "title": "Ijtimoiy mas’uliyat va jamiyatdagi faollik",
-                "body": "Tadbirkor mintaqaning ijtimoiy hayotida faol ishtirok etadi — o‘zi tarbiyalangan bog‘cha, "
+                "body": "Tadbirkor viloyatning ijtimoiy hayotida faol ishtirok etadi — o‘zi tarbiyalangan bog‘cha, "
                 "o‘qigan maktab va oliy o‘quv yurti, yashaydigan mahalladagi ijobiy o‘zgarishlarni tashkil etishda.",
             },
             {
@@ -109,8 +103,8 @@ PAGES = [
         "birlashtiradi. Logotipdagi sakkiz qirrali yulduz — Temuriylar me’morchiligidagi girih naqshining asosiy "
         "elementi bo‘lib, birdamlik, muvozanat va barcha yo‘nalishlarga ochiqlikni ifodalaydi.</p>",
         "blocks": [
-            {"group": "elements", "title": "To‘liq nomi", "body": "«Mintaqalarni ijtimoiy-iqtisodiy rivojlantirishga ko‘maklashish bo‘yicha tadbirkorlar jamoat fondi «YANGI SAMARQAND»"},
-            {"group": "elements", "title": "Shior", "body": "Tadbirkorlikni jadal rivojlantirish sari birgamiz."},
+            {"group": "elements", "title": "To‘liq nomi", "body": "«Ishbilarmonlarning «YANGI SAMARQAND» hududlarni ijtimoiy-iqtisodiy rivojlanishiga ko‘maklashuvchi jamoat fondi»"},
+            {"group": "elements", "title": "Shior", "body": "Birgalikda — tadbirkorlik yuksalishi sari!"},
             {"group": "elements", "title": "Belgi", "body": "Sakkiz qirrali girih yulduzi — Registon naqshlaridan ilhomlangan."},
             {"group": "colors", "title": "Firuza", "body": "#007F78 — Samarqand gumbazlari rangi"},
             {"group": "colors", "title": "Lojuvard", "body": "#2340D4 — Registon koshinlari"},
@@ -121,7 +115,7 @@ PAGES = [
         "key": "membership",
         "section": "about",
         "title": "A’zolik shartlari",
-        "subtitle": "Kengashga a’zo bo‘ling — mintaqa o‘zgarishlarining tashkilotchisiga aylaning.",
+        "subtitle": "Kengashga a’zo bo‘ling — viloyat o‘zgarishlarining tashkilotchisiga aylaning.",
         "body": "<p>Jamoat Kengashi a’zolari (ishtirokchilari) Fond Nizomini va maqsadlarini tan oladigan, Kengash "
         "faoliyatida faol ishtirok etadigan, Nizom vazifalarini amalga oshirish uchun ixtiyoriy ravishda pul va mulkiy "
         "badallar kiritadigan mahalliy va xorijiy yuridik hamda jismoniy shaxslar bo‘lishi mumkin. Ular Kengashda "
@@ -135,7 +129,7 @@ PAGES = [
             {"group": "tiers", "title": "Kichik korxonalar (yillik realizatsiya 10,0 mlrd so‘mgacha)", "body": "10,0 mln so‘m"},
             {"group": "tiers", "title": "O‘rta korxonalar (yillik realizatsiya 10,0 mlrd so‘mdan ortiq)", "body": "25,0 mln so‘m"},
             {"group": "tiers", "title": "Yirik korxonalar (yillik realizatsiya 100,0 mlrd so‘mdan ortiq)", "body": "50,0 mln so‘m"},
-            {"group": "benefits", "title": "Mintaqaning nufuzli tadbirkorlar hamjamiyati tarkibida bo‘lishdan faxrlanish", "body": ""},
+            {"group": "benefits", "title": "Viloyatning nufuzli tadbirkorlar hamjamiyati tarkibida bo‘lishdan faxrlanish", "body": ""},
             {"group": "benefits", "title": "Ijtimoiy-iqtisodiy islohotlar va ijobiy o‘zgarishlarning ishtirokchisi bo‘lish", "body": ""},
             {"group": "benefits", "title": "Gaz, elektr energiya, suv ta’minoti, kadastr va boshqa xizmatlarni, shuningdek ta’lim, sog‘liqni saqlash va ijtimoiy ta’minotni yaxshilash bo‘yicha takliflar bilan chiqish", "body": ""},
             {"group": "benefits", "title": "Kengash bilan birga o‘zgarishlar tashkilotchisi bo‘lish, viloyatning ilg‘or tadbirkorlari safida turish", "body": ""},
@@ -145,7 +139,7 @@ PAGES = [
             {
                 "group": "honorary",
                 "title": "Faxriy a’zolik",
-                "body": "Mamlakat va mintaqaning ijtimoiy-iqtisodiy rivojiga katta hissa qo‘shgan, faol hayot tarzini olib "
+                "body": "Mamlakat va viloyatning ijtimoiy-iqtisodiy rivojiga katta hissa qo‘shgan, faol hayot tarzini olib "
                 "borayotgan pensiya yoshidagi fuqarolar hech qanday badal kiritmasdan Jamoat fondi a’zosi bo‘lishlari mumkin.",
             },
         ],
@@ -172,7 +166,7 @@ PAGES = [
     {
         "key": "recognition",
         "section": "council",
-        "title": "Yutuqlarni e’tirof etish",
+        "title": "Eng ilg‘orlarni e’tirof etish",
         "subtitle": "Xizmat ko‘rsatgan, o‘zini ko‘rsatgan tadbirkorlarni jamoatchilik tomonidan e’tirof etish loyihasi.",
         "body": "<p>Tadbirkorlarning xizmatlarini e’tirof etish — mamlakatda tadbirkorlik nufuzini oshirish, tadbirkorni "
         "biznesdagi yangi yutuqlarga undash, xayriya va ezgu ishlar ko‘lamini kengaytirish yo‘nalishlaridan biri.</p>"

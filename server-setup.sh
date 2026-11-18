@@ -9,10 +9,10 @@
 # Nima qiladi: Docker ni o‘rnatadi (yo‘q bo‘lsa), umumiy tarmoq va volume'larni yaratadi,
 # .env fayllari yo‘q bo‘lsa — maxfiy kalitlarni yaratib uchalasini to‘ldiradi (bot tokenini so‘raydi),
 # mavjud .env larda faqat domen/HTTPS qatorlarini yangilaydi (maxfiy kalitlarga tegmaydi),
-# so‘ng backend → frontend → bot tartibida ishga tushiradi. Sayt: https://mentadbirkor.uz (SSL avtomatik).
+# so‘ng backend → frontend → bot tartibida ishga tushiradi. Sayt: https://sambizsupport.uz (SSL avtomatik).
 set -euo pipefail
 
-DOMAIN="${DOMAIN:-mentadbirkor.uz}"
+DOMAIN="${DOMAIN:-sambizsupport.uz}"
 say() { printf '\n\033[1;36m==> %s\033[0m\n' "$*"; }
 warn() { printf '\n\033[1;33m!!  %s\033[0m\n' "$*"; }
 # setv FILE KEY VALUE — qator bor bo‘lsa almashtiradi, yo‘q bo‘lsa qo‘shadi

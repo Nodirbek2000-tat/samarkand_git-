@@ -1,7 +1,7 @@
 """Council projects — Uzbek versions of the official project descriptions."""
 
 ORG_LINE = (
-    "<p><em>«Yangi Samarqand» mintaqalarni ijtimoiy-iqtisodiy rivojlantirishga ko‘maklashish bo‘yicha tadbirkorlar "
+    "<p><em>Ishbilarmonlarning «Yangi Samarqand» hududlarni ijtimoiy-iqtisodiy rivojlanishiga ko‘maklashuvchi "
     "jamoat fondi nodavlat notijorat tashkiloti · Samarqand viloyati tadbirkorlarining jamoat maslahat kengashi</em></p>"
 )
 
@@ -76,7 +76,7 @@ PROJECTS = [
         "<p>2022-yil 17-dekabrda «Zarafshon tekstil» korxonasida o‘tgan Kengash majlisida tadbirkorlar Siyob sohilini "
         "obodonlashtirish tashabbusi bilan chiqdilar: sohilni noqonuniy qurilmalardan tozalash, piyodalar va "
         "velosipedchilar uchun yo‘laklarni betonlash. Har bir ishtirokchi taxminan 2 km uzunlikdagi uchastkani "
-        "obodonlashtirish majburiyatini oldi. Ishlar davomida aksiyaga mintaqaning boshqa kompaniyalari ham "
+        "obodonlashtirish majburiyatini oldi. Ishlar davomida aksiyaga viloyatning boshqa kompaniyalari ham "
         "qo‘shildi.</p>",
     },
     {
@@ -186,7 +186,7 @@ PROJECTS = [
         "<p>Klub ta’lim muassasalarining marketing va karyera o‘sishi bo‘linmalari rahbarlari, korxonalar HR bo‘limlari "
         "rahbarlari va mutaxassislari ishtirokida tashkil etilgan. Klub ishtirokchilari qarori bilan Telegram-kanal "
         "yaratilgan: unda ish beruvchilar vakansiyalari va ta’lim muassasalarining ishga joylashtirish takliflari "
-        "joylashtiriladi. Har bir postda murojaat uchun kontaktlar ko‘rsatiladi — shu bilan mintaqa mehnat bozori "
+        "joylashtiriladi. Har bir postda murojaat uchun kontaktlar ko‘rsatiladi — shu bilan viloyat mehnat bozori "
         "ishtirokchilari o‘rtasida to‘g‘ridan-to‘g‘ri muloqot boshlanadi.</p>"
         "<h2>Kutilayotgan natijalar</h2>"
         "<p>HR bo‘limlari rahbarlari va mutaxassislari ta’lim muassasalarining ma’lumotlar bazasiga (qaysi mutaxassislikdagi "

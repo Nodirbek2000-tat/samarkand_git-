@@ -16,6 +16,7 @@ COUNCIL_MEMBERS = [
     ("Jalolov Shavkat Amonovich", FOUNDER, "«AGROMIR» kompaniyalar guruhi"),
     ("Jahongirov Tolib Muzaffarovich", DIRECTOR, "«SHAXREZADA SAM STAR TUR» MChJ"),
     ("Ziyoyev Fayzullo Ziyoyevich", DIRECTOR, "«SAMARQAND KONSERVA» MChJ"),
+    ("Ibragimov Nozir Aliyevich", "Dual ta’lim markazi direktori", "Samarqand xalqaro texnologiya universiteti"),
     ("Karimov Ravshan Murodovich", FOUNDER, "«METIN» kompaniyalar guruhi"),
     ("Komilov Nasim Qobiljonovich", FOUNDER, "«MEROS PHARM» kompaniyalar guruhi"),
     ("Qo‘chqorova Gulbeka Allamuratovna", HEAD, "«BEKA CHAROS» XK"),

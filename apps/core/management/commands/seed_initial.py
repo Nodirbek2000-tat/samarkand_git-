@@ -57,7 +57,7 @@ class Command(BaseCommand):
 
     def settings(self):
         s = SiteSettings.load()
-        s.slogan = "Tadbirkorlikni jadal rivojlantirish sari birgamiz"
+        s.slogan = "Birgalikda — tadbirkorlik yuksalishi sari!"
         s.phone = s.phone or "+998 66 233 00 01"
         s.email = s.email or "info@yangisamarqand.uz"
         s.address = s.address or "Samarqand sh., Registon ko‘chasi, 1-uy"
