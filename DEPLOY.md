@@ -32,8 +32,8 @@ docker volume create mentadbirkor_static
 ## 1. O‘rnatish
 
 ```bash
-git clone https://github.com/Nodirbek2000-tat/samarkand_git-.git /opt/mentadbirkor/backend
-cd /opt/mentadbirkor/backend
+git clone https://github.com/Nodirbek2000-tat/samarkand_git-.git /opt/sambizsupport/samarkand_git-
+cd /opt/sambizsupport/samarkand_git-
 cp server.env.example .env
 nano .env        # DJANGO_SECRET_KEY, POSTGRES_PASSWORD, DJANGO_ADMIN_PASSWORD, ikkita umumiy kalit
 docker compose up -d --build
@@ -60,7 +60,7 @@ docker compose exec backend python manage.py set_role @telegram_username admin
 ## 4. Yangilash
 
 ```bash
-cd /opt/mentadbirkor/backend
+cd /opt/sambizsupport/samarkand_git-
 git pull
 docker compose up -d --build
 ```

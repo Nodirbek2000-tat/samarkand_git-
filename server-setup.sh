@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # mentadbirkor — serverga birinchi o‘rnatish (va qayta ishga tushirish) bitta buyruq bilan.
 #
-# Uchala repo bitta papkada yonma-yon klonlangan bo‘lsin (masalan /root yoki /opt/mentadbirkor):
+# Uchala repo bitta papkada yonma-yon klonlangan bo‘lsin (masalan /root yoki /opt/sambizsupport):
 #   samarkand_git-  samarkand_next_git-  samarkand_bot_git     (GitHub nomlari)
 #   yoki  backend  frontend  bot
 # Keyin:   bash samarkand_git-/server-setup.sh
@@ -110,6 +110,11 @@ say "1/3 Backend (Django + PostgreSQL)"
 
 say "2/3 Frontend (Next.js + Nginx) — birinchi marta bir necha daqiqa"
 (cd "$FRONTEND" && docker compose up -d --build)
+
+# rasmlar fonda oldindan tayyorlanadi (birinchi mehmon optimizatorni kutmasin) — frontend/scripts/warm-images.sh
+if [ -f "$FRONTEND/scripts/warm-images.sh" ]; then
+  (cd "$FRONTEND" && DOMAIN="$DOMAIN" nohup bash scripts/warm-images.sh >/tmp/warm-images.log 2>&1 &)
+fi
 
 say "3/3 Bot"
 (cd "$BOT" && docker compose up -d --build)
