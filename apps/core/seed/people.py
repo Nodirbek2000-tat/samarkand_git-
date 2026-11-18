@@ -18,7 +18,7 @@ COUNCIL_MEMBERS = [
     ("Ziyoyev Fayzullo Ziyoyevich", DIRECTOR, "«SAMARQAND KONSERVA» MChJ"),
     ("Ibragimov Nozir Aliyevich", "Dual ta’lim markazi direktori", "Samarqand xalqaro texnologiya universiteti"),
     ("Karimov Ravshan Murodovich", FOUNDER, "«METIN» kompaniyalar guruhi"),
-    ("Komilov Nasim Qobiljonovich", FOUNDER, "«MEROS PHARM» kompaniyalar guruhi"),
+    ("Komilov Nasimjon Qobiljonovich", FOUNDER, "«MEROS PHARM» kompaniyalar guruhi"),
     ("Qo‘chqorova Gulbeka Allamuratovna", HEAD, "«BEKA CHAROS» XK"),
     ("Marupov Baxtiyor Mahmudovich", FOUNDER, "«SIYOB» kompaniyalar guruhi"),
     ("Mirboboyev Shahob Asatilla o‘g‘li", DIRECTOR, "«URGUT MIKRO METALL» MChJ"),
@@ -44,7 +44,7 @@ BOARD_MEMBERS = [
     ("O‘roqov Haydar Muhammadiyevich", "chairman", "«NAVOBOD NASLLI PARRANDA» kompaniyalar guruhi, ta’sischi"),
     ("Marupov Baxtiyor Mahmudovich", "deputy", "«SIYOB» kompaniyalar guruhi, ta’sischi"),
     ("Abdullayev Kamol Tal’atovich", "deputy", "«SAG» kompaniyalar guruhi, ta’sischi"),
-    ("Komilov Nasim Qobiljonovich", "deputy", "«MEROS» kompaniyalar guruhi, ta’sischi"),
+    ("Komilov Nasimjon Qobiljonovich", "deputy", "«MEROS» kompaniyalar guruhi, ta’sischi"),
     (
         "Ibragimov Nozir Aliyevich",
         "deputy",
