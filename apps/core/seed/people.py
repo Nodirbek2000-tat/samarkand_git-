@@ -42,14 +42,14 @@ COUNCIL_MEMBERS = [
 # (full name, board role, workplace)
 BOARD_MEMBERS = [
     ("O‘roqov Haydar Muhammadiyevich", "chairman", "«NAVOBOD NASLLI PARRANDA» kompaniyalar guruhi, ta’sischi"),
-    ("Marupov Baxtiyor Mahmudovich", "deputy", "«SIYOB» kompaniyalar guruhi, ta’sischi"),
-    ("Abdullayev Kamol Tal’atovich", "deputy", "«SAG» kompaniyalar guruhi, ta’sischi"),
-    ("Komilov Nasimjon Qobiljonovich", "deputy", "«MEROS» kompaniyalar guruhi, ta’sischi"),
     (
         "Ibragimov Nozir Aliyevich",
         "deputy",
         "Samarqand xalqaro texnologiya universiteti Dual ta’lim markazi direktori, iqtisod fanlari doktori, professor",
     ),
+    ("Marupov Baxtiyor Mahmudovich", "deputy", "«SIYOB» kompaniyalar guruhi, ta’sischi"),
+    ("Abdullayev Kamol Tal’atovich", "deputy", "«SAG» kompaniyalar guruhi, ta’sischi"),
+    ("Komilov Nasimjon Qobiljonovich", "deputy", "«MEROS» kompaniyalar guruhi, ta’sischi"),
 ]
 
 # (company, initiator) — Siyob canal project
