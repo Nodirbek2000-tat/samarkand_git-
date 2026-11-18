@@ -58,10 +58,10 @@ SIYOB_INITIATORS = [
     ("«AGROMIR» kompaniyalar guruhi", "Jalolov Shavkat Amonovich"),
     ("«SHARQ SANOAT» konserni", "Sharipov Shavkat O‘ktamovich"),
     ("«SAG» kompaniyalar guruhi", "Abdullayev Kamol Tal’atovich"),
-    ("«NURLI KELAJAK STORY INVEST» MChJ", "Qayumov Akbar Qosimaliyevich"),
+    ("«NURLI KELAJAK STORY INVEST» MChJ", "Qayumov Akbarali Qosimaliyevich"),
     ("«SXF» kompaniyalar guruhi", "To‘rayev Zafar Suyunovich"),
-    ("«ME’MOR» MChJ", "Toshev Muzrob"),
-    ("«ASIA METALL PROF» QK MChJ", "Baxronov Damir Ravshanovich"),
+    ("«ME’MOR» MChJ", "Toshov Mizrob Mahmudovich"),
+    ("«ASIA METALL PROF» QK MChJ", "Baxranov Damir Ravshanjonovich"),
 ]
 
 # (year, full name, company, award, description)
@@ -172,5 +172,5 @@ TEACHERS_DAY_HONOREES = [
     "Sharipov Shavkat O‘ktamovich",
     "Ibragimov Nozir Aliyevich",
     "Yusupov Nosir Fatixovich",
-    "Bagirov Nosir Musoyevich",
+    "Bagirov Nosir Musayevich",
 ]
