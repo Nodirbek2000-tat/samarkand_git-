@@ -8,7 +8,11 @@ A file "Ibragimov Nozir.jpg" goes to every person whose name has those words —
 on the Board and among the recognised. Each photo is cropped to the site's 4:5 frame so that every portrait looks
 alike: the head is found against the studio background (white or grey), centred, given the same room above it and,
 in a waist-up or wide shot, brought closer until it fills the frame like the others. Then it is scaled down and
-stored as WebP. People who already have a photo are skipped unless --replace is given. A file that matches nobody,
+stored as WebP. People who already have a photo are skipped unless --replace is given.
+
+Council, Board and leadership cards use the cut-out version when seed/people_cutouts has one of the same name:
+the person without the background, every head the same width at the same height, so the site can stand them in
+the ornament of their line of business. The recognised keep the ordinary crop. A file that matches nobody,
 or two different people, is reported and skipped.
 """
 
@@ -24,6 +28,7 @@ from PIL import Image, ImageOps
 from apps.council.models import BoardMember, CouncilMember, Leader, Recognition
 
 DEFAULT_DIR = Path(__file__).resolve().parents[2] / "seed" / "people_photos"
+CUTOUT_DIR = Path(__file__).resolve().parents[2] / "seed" / "people_cutouts"
 EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp", ".avif"}
 MODELS = (CouncilMember, BoardMember, Leader, Recognition)
 
@@ -128,6 +133,8 @@ class Command(BaseCommand):
                 continue
 
             data = portrait(path)
+            cutout = CUTOUT_DIR / f"{path.stem}.webp"
+            cut_data = cutout.read_bytes() if cutout.is_file() else None
             for obj in found:
                 label = f"{obj._meta.verbose_name}: {obj.full_name}"
                 if obj.photo and not replace:
@@ -136,7 +143,8 @@ class Command(BaseCommand):
                     continue
                 if obj.photo:
                     obj.photo.delete(save=False)
-                obj.photo.save(f"{path.stem}.webp", ContentFile(data), save=False)
+                own = cut_data if cut_data and not isinstance(obj, Recognition) else data
+                obj.photo.save(f"{path.stem}.webp", ContentFile(own), save=False)
                 obj.save(update_fields=["photo"])
                 self.stdout.write(f"✓ {label}")
                 placed += 1
