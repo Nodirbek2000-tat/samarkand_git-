@@ -28,6 +28,11 @@ class News(RichTextMixin, SluggedModel, PublishableModel, TimeStampedModel):
     excerpt = models.TextField("Qisqa mazmun", max_length=600, blank=True)
     body = models.TextField("Matn", blank=True)
     cover = models.ImageField("Muqova rasmi", upload_to=covers_upload, blank=True, validators=image_validators)
+    video_url = models.URLField("Video havolasi (YouTube va b.)", blank=True)
+    video_file = models.FileField(
+        "Video fayl", upload_to=videos_upload, blank=True, validators=video_validators,
+        help_text="YouTube havolasi o‘rniga to‘g‘ridan-to‘g‘ri yuklash mumkin (mp4, webm)",
+    )
     source_url = models.URLField("Manba havolasi", blank=True)
     is_featured = models.BooleanField("Asosiy yangilik", default=False)
     views = models.PositiveIntegerField("Ko‘rishlar", default=0, editable=False)

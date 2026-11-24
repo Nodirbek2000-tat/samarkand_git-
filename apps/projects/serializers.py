@@ -80,7 +80,7 @@ class ProjectSerializer(ProjectListSerializer):
 
     class Meta(ProjectListSerializer.Meta):
         fields = ProjectListSerializer.Meta.fields + [
-            "body", "objectives", "expected_results", "video_url", "website_url", "telegram_url", "instagram_url",
+            "body", "objectives", "expected_results", "video_url", "video_file", "website_url", "telegram_url", "instagram_url",
             "started_on", "finished_on", "budget", "images", "documents", "participants", "created_at",
         ]
         read_only_fields = ["slug", "created_at", "updated_at"]

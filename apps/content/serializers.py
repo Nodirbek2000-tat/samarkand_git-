@@ -28,7 +28,7 @@ class NewsSerializer(NewsListSerializer):
     images = NewsImageSerializer(many=True, read_only=True)
 
     class Meta(NewsListSerializer.Meta):
-        fields = NewsListSerializer.Meta.fields + ["body", "source_url", "images", "created_at"]
+        fields = NewsListSerializer.Meta.fields + ["body", "video_url", "video_file", "source_url", "images", "created_at"]
         read_only_fields = ["slug", "views", "created_at", "updated_at"]
         extra_kwargs = {"published_at": {"required": False}}
 

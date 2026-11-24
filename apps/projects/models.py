@@ -9,8 +9,9 @@ from apps.core.models import (
     covers_upload,
     documents_upload,
     gallery_upload,
+    videos_upload,
 )
-from apps.core.validators import document_validators, image_validators
+from apps.core.validators import document_validators, image_validators, video_validators
 
 
 class Project(RichTextMixin, SluggedModel, PublishableModel, TimeStampedModel, OrderedModel):
@@ -45,6 +46,10 @@ class Project(RichTextMixin, SluggedModel, PublishableModel, TimeStampedModel, O
     )
     cover = models.ImageField("Muqova", upload_to=covers_upload, blank=True, validators=image_validators)
     video_url = models.URLField("Video havolasi", blank=True)
+    video_file = models.FileField(
+        "Video fayl", upload_to=videos_upload, blank=True, validators=video_validators,
+        help_text="YouTube havolasi o‘rniga to‘g‘ridan-to‘g‘ri yuklash mumkin (mp4, webm)",
+    )
     website_url = models.URLField("Veb-sayt", blank=True)
     telegram_url = models.URLField("Telegram", blank=True)
     instagram_url = models.URLField("Instagram", blank=True)
