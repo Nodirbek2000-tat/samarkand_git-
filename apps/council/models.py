@@ -43,6 +43,7 @@ class CouncilMember(Person):
     CACHE_TAGS = ("council",)
 
     class Meta(Person.Meta):
+        ordering = ["full_name"]  # alphabetical, whoever is added later
         verbose_name = "Kengash a’zosi"
         verbose_name_plural = "Kengash a’zolari"
 
@@ -60,6 +61,13 @@ class BoardMember(Person):
     workplace = models.CharField("Ish joyi va lavozimi", max_length=400, blank=True)
 
     CACHE_TAGS = ("council",)
+
+    def save(self, *args, **kwargs):
+        # the chairman comes first, everyone else after him in alphabetical order (Meta.ordering: order, full_name)
+        self.order = 0 if self.role == self.Role.CHAIRMAN else 1
+        if kwargs.get("update_fields") is not None:
+            kwargs["update_fields"] = {*kwargs["update_fields"], "order"}
+        super().save(*args, **kwargs)
 
     class Meta(Person.Meta):
         verbose_name = "Boshqaruv a’zosi"
