@@ -3,10 +3,11 @@ Puts news items (with their photos, video and a photo report) on the site from s
 
     python manage.py import_news            # every folder in apps/core/seed/news
     python manage.py import_news --replace  # rewrite items that are already there
+    python manage.py import_news some-slug --replace  # just this one
 
 Each folder is one item; its name is the link (slug). item.json holds:
     title, category (council|projects|forum|business|cooperation|events|other), excerpt, body (HTML),
-    published_at (optional, "2025-07-15"), cover ("1.jpg"), images (["2.jpg", ...]), video_url (optional),
+    published_at (optional, "2025-07-15"), source_url (optional), cover ("1.jpg"), images (["2.jpg", ...]), video_url (optional),
     video_file (optional, "video.mp4"), gallery (optional: {"location", "images": [...]}) — the same event
     then also appears among the photo reports.
 Photos are scaled down to 1600 px and stored as WebP.
@@ -42,10 +43,13 @@ class Command(BaseCommand):
     help = "Yangiliklarni (rasmlari, videosi va fotohisoboti bilan) seed/news papkasidan joylaydi."
 
     def add_arguments(self, parser):
+        parser.add_argument("slugs", nargs="*", help="faqat shu yangiliklar (papka nomlari)")
         parser.add_argument("--replace", action="store_true", help="bor yangiliklarni ham qayta yozish")
 
-    def handle(self, replace, **options):
+    def handle(self, slugs, replace, **options):
         folders = sorted(p for p in ROOT.iterdir() if (p / "item.json").is_file()) if ROOT.is_dir() else []
+        if slugs:
+            folders = [p for p in folders if p.name in slugs]
         for folder in folders:
             with transaction.atomic():
                 self.one(folder, replace)
@@ -63,6 +67,7 @@ class Command(BaseCommand):
         news.excerpt = data.get("excerpt", "")
         news.body = data.get("body", "")
         news.video_url = data.get("video_url", "")
+        news.source_url = data.get("source_url", "")
         news.is_published = True
         if data.get("published_at"):
             news.published_at = timezone.make_aware(datetime.fromisoformat(data["published_at"]))
