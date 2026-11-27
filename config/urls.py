@@ -5,6 +5,7 @@ from django.urls import include, path, re_path
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
 from apps.accounts.views import UserAdminViewSet
+from apps.catalog import views as catalog
 from apps.content import views as content
 from apps.core import views as core
 from apps.core.api import OptionalSlashRouter
@@ -44,6 +45,10 @@ router.register("pages", core.PageViewSet, basename="page")
 router.register("appeals", inbox.AppealViewSet, basename="appeal")
 router.register("cooperation-requests", inbox.CooperationRequestViewSet, basename="cooperation-request")
 router.register("member-applications", inbox.MemberApplicationViewSet, basename="member-application")
+# Made in Samarkand catalog (read-only API)
+router.register("catalog/categories", catalog.CategoryViewSet, basename="catalog-category")
+router.register("catalog/companies", catalog.CompanyViewSet, basename="catalog-company")
+router.register("catalog/products", catalog.ProductViewSet, basename="catalog-product")
 # accounts
 router.register("admin/users", UserAdminViewSet, basename="admin-user")
 

@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     "apps.forum",
     "apps.partners",
     "apps.inbox",
+    "apps.catalog",
 ]
 
 MIDDLEWARE = [
